@@ -17,7 +17,11 @@
 #include <stdio.h>
 #include <string.h>
 
-
+/**
+ * @brief Store the Raspberry Pi's CPU serial number in a passed char array buffer
+ * @param buf A string array of chars buffer in which to store the CPU serial, should be size 17
+ * @return none
+ */
 void pi_get_cpu_serial(char *buf)
 {
     FILE *cpuSerialFile;
@@ -36,6 +40,11 @@ void pi_get_cpu_serial(char *buf)
     strncpy(buf, serial, 17);
 }
 
+/**
+ * @brief Get the Raspberry Pi's CPU temperature from the system file and return as a float
+ * @param none
+ * @return float of the CPU temperature
+ */
 float pi_get_cpu_temperature()
 {
     FILE *cpuTempFile;
@@ -48,6 +57,11 @@ float pi_get_cpu_temperature()
     return cpuTempFloat;
 }
 
+/**
+ * @brief Get the local IP address of an active networking interface on the Raspberry Pi
+ * @param buf A string array of chars buffer in which to store the local IP, should be size 16
+ * @return none
+ */
 void pi_get_interface_ip(char *buf)
 {
     struct ifaddrs *ifap, *ifa;
@@ -70,12 +84,22 @@ void pi_get_interface_ip(char *buf)
     strncpy(buf, ipstr, 16);
 }
 
+/**
+ * @brief Sends a system command to shut down the Raspberry Pi after a given delay, blocks execution
+ * @param delay Integer seconds of how long to wait before sending the shut down command
+ * @return none
+ */
 void pi_shutdown_blocking(int delay)
 {
     sleep(delay);
     system("sudo shutdown -h now");
 }
 
+/**
+ * @brief Forks the program to shut down the Raspberry Pi after a given delay, doesn't block execution
+ * @param delay Integer seconds of how long to wait before sending the shut down command
+ * @return none
+ */
 void pi_shutdown(int delay)
 {
     int pid = fork();
@@ -85,12 +109,22 @@ void pi_shutdown(int delay)
     }
 }
 
+/**
+ * @brief Sends a system command to reboot the Raspberry Pi after a given delay, blocks execution
+ * @param delay Integer seconds of how long to wait before sending the reboot command
+ * @return none
+ */
 void pi_reboot_blocking(int delay)
 {
     sleep(delay);
     system("sudo shutdown -r now");
 }
 
+/**
+ * @brief Forks the program to reboot the Raspberry Pi after a given delay, doesn't block execution
+ * @param delay Integer seconds of how long to wait before sending the reboot command
+ * @return none
+ */
 void pi_reboot(int delay)
 {
     int pid = fork();

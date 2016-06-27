@@ -11,11 +11,17 @@
 #include <string.h>
 #include <curl/curl.h>
 
+/**
+ * @brief Defines the struct in which the request response containing the public IP is stored
+ */
 struct MemoryStruct {
     char *memory;
     size_t size;
 };
 
+/**
+ * @brief Stores the results of the call to icanhazip.com in memory to be retrieved later for the IP
+ */
 static size_t
 WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -36,6 +42,11 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
     return realsize;
 }
 
+/**
+ * @brief Get the public IP address of the Raspberry Pi by requesting it from icanhazip.com
+ * @param buf A string array of chars buffer in which to store the public IP, should be size 16
+ * @return none
+ */
 void cloud_get_public_ip(char *buf){
     CURL *curl;
     CURLcode res;
@@ -91,6 +102,13 @@ void cloud_get_public_ip(char *buf){
     }
 }
 
+/**
+ * @brief Sends an HTTP GET request to the IFTTT.com Maker Channel to trigger a recipe
+ * @param key A string array of chars that contains the user's IFTTT API Key
+ * @param event A string array of chars that contains the recipe trigger's event name
+ * @param timeout A long in seconds of how long to wait on the command before timing out
+ * @return none
+ */
 void cloud_ifttt_trigger(char *key, char *event, long timeout)
 {
     CURL *curl;
