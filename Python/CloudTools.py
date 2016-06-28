@@ -21,11 +21,12 @@ def get_public_ip():
 
 
 # Sends a request to an IFTTT Maker Channel with the given key and event name
-def ifttt_trigger(key="xxxxxxxxxxxxxxxxxxxxxx", event="SensorianEvent", timeout=5):
+def ifttt_trigger(key="xxxxxxxxxxxxxxxxxxxxxx", event="SensorianEvent", timeout=5, value1="", value2="", value3=""):
+    payload = {'value1': str(value1), 'value2': str(value2), 'value3': str(value3)}
     url = "https://maker.ifttt.com/trigger/" + event + "/with/key/" + key
     # Make a GET request to the IFTTT maker channel URL using the event name and key
     try:
-        r = requests.get(url, timeout=timeout)
+        r = requests.post(url, data=payload, timeout=timeout)
         print(r.text)  # For debugging GET requests
     except requests.exceptions.ConnectionError:
         print("IFTTT ERROR - requests.exceptions.ConnectionError - Check connection and server")

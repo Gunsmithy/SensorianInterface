@@ -55,7 +55,10 @@ tools_string += " Public: " + CloudTools.get_public_ip()  # Add the public IP of
 tft_printer.screen_print_rotated(tools_string, 1)  # Print the completed string to the landscape display
 
 # Send a trigger to a recipe created using the Maker Channel on IFTTT.com
-CloudTools.ifttt_trigger("YourIFTTTMakerChannelKey", "YourRecipeEventName")
+CloudTools.ifttt_trigger("YourIFTTTMakerChannelKey", "YourRecipeEventName", 5)
+
+# Send a trigger to a recipe created using the Maker Channel on IFTTT.com along with variables in a JSON
+CloudTools.ifttt_trigger("YourIFTTTMakerChannelKey", "YourRecipeEventName", 5, "1", 2, 3.0)
 
 # print("Telling Pi to reboot in 10")
 # PI_TOOLS.reboot_pi(10)

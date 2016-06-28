@@ -124,7 +124,61 @@ void cloud_ifttt_trigger(char *key, char *event, long timeout)
 
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_URL, ifttt_url);
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
 
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if (res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+}
+
+/**
+ * @brief Sends an HTTP POST request to the IFTTT.com Maker Channel to trigger a recipe with variables
+ * @param key A string array of chars that contains the user's IFTTT API Key
+ * @param event A string array of chars that contains the recipe trigger's event name
+ * @param value1 A string array of chars that contains the first value for the POSTed JSON
+ * @param value2 A string array of chars that contains the second value for the POSTed JSON
+ * @param value3 A string array of chars that contains the third value for the POSTed JSON
+ * @param timeout A long in seconds of how long to wait on the command before timing out
+ * @return none
+ */
+void cloud_ifttt_trigger_values(char *key, char *event, long timeout, char *value1, char *value2, char *value3)
+{
+    CURL *curl;
+    CURLcode res;
+
+    curl = curl_easy_init();
+
+    char ifttt_url[128];
+    strcpy(ifttt_url, "https://maker.ifttt.com/trigger/");
+    strcat(ifttt_url, event);
+    strcat(ifttt_url, "/with/key/");
+    strcat(ifttt_url, key);
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, ifttt_url);
+
+        char jsonObj[128];
+        sprintf(jsonObj, "{ \"value1\" : \"%s\" , \"value2\" : \"%s\" , \"value3\" : \"%s\" }", value1, value2, value3);
+
+        struct curl_slist *headers = NULL;
+        headers = curl_slist_append(headers, "Accept: application/json");
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, "charsets: utf-8");
+
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonObj);
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
 
         /* Perform the request, res will get the return code */

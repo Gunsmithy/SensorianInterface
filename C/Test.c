@@ -73,12 +73,14 @@ int main(void)
     strcat(ips_printed, " Public IP: "); //Add the label Public IP to the end of the string
     strcat(ips_printed, public_ip); //Add the string containing the public ip to the end of the string
     TFT_Printer_PrintAll(LANDSCAPE_INV, WHITE, BLACK, ips_printed, 2); //Prints both IP addresses to the LCD
-    sleep(3);
+    sleep(1);
 
     char *key = "YourIFTTTMakerChannelKey"; //Create a string for your IFTTT Maker Channel Key
     char *event = "YourRecipeEventName"; //Create a string for your IFTTT Maker Channel Event
     long timeout = 5; //Create a long for the number of seconds to wait before timing out the request
     cloud_ifttt_trigger(key, event, timeout); //Send a HTTP request to trigger an IFTTT Maker Channel Recipe
+    //Send a HTTP request to trigger an IFTTT Maker Channel Recipe along with 3 values in a JSON
+    cloud_ifttt_trigger_values(key, event, timeout, "Value1", "2", "3.0");
 
     float cpu_temp = pi_get_cpu_temperature(); //Store the float of the CPU temperature returned by the function
     char cpu_temp_str[10]; //Create a char array in which to store the string equivalent of the temperature
@@ -87,7 +89,7 @@ int main(void)
     strcpy(cpu_temp_printed, "CPU TEMP: "); //Start the new string off with the label CPU TEMP
     strcat(cpu_temp_printed, cpu_temp_str); //Add the string containing the temperature to the end of the string
     TFT_Printer_PrintAll(LANDSCAPE_INV, WHITE, BLACK, cpu_temp_printed, 2); //Prints CPU Temperature to the LCD
-    sleep(3);
+    sleep(1);
 
     char cpu_serial[17] = {0}; //Creates a buffer in which to store the CPU serial
     pi_get_cpu_serial(cpu_serial); //Passes the buffer to the function which gets the CPU Serial
