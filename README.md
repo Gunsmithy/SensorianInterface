@@ -29,4 +29,8 @@ In summary, the code bases are broken into 4 main libraries:
 4. `CloudTools.c/py` - Adds additional functionality to your Sensorian project related to cloud integration  
 Check out the example code, `test.c/py`, to see how these APIs can be used to quickly build applications  
 
+For your benefit, some example programs have also been added to demonstrate some practical applications  
+1. `Example_Lights.c/py` - Adjusts the brightness of a Philips Hue lightbulb to maintain a certain light level  
+  * This could be used to turn up your lights as the sun goes down in a windowed room  
+
 Hope you find it useful, feel free to contribute or tell me things you'd like to see!
