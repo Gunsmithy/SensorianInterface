@@ -38,7 +38,7 @@ def setup():
 
 # Waits until the brightness changes to ensure the request worked given the current light level and desired direction
 def wait_for_change(pre_request_lux, direction="BOTH"):
-    tolerance = lux_per_bright * 1.5
+    tolerance = lux_per_bright * 1.5  # Sensitivity - How much the light should change to be considered different
     slept = 0  # Stores a counter to time out the check for a change in brightness in case the brightness is the same
     while True:  # Loops until the brightness changes or it times out
         current_lux = SensorsInterface.getAmbientLight()  # Get the current light value to check against in a second
@@ -92,7 +92,7 @@ def main():
         current_lux = SensorsInterface.getAmbientLight()  # Get the current light level to see if it is in range
         sensor_string = "Light: " + str(current_lux)  # Add the light value to the string
         tft_printer.screen_print_rotated(sensor_string, 1)  # Print the completed string to the landscape display
-        current_difference = current_lux - desired_lux  # Calculate how difference the current and desired levels are
+        current_difference = current_lux - desired_lux  # Calculate how different the current and desired levels are
         if current_difference < 0 and abs(current_difference) > lux_per_bright:  # If negative difference, check low
             brightness_notches = math.floor(abs(current_difference) / lux_per_bright)  # Calculate how much to change
             current_setting += brightness_notches  # Increase the current brightness by the calculated amount
