@@ -29,11 +29,10 @@ current_setting = 0  # The last known value of brightness for the Hue, based on 
 # Sets up the Sensorian sensors for use and prints the current light level to the screen to test
 def setup():
     SensorsInterface.setupSensorian()  # Prepare the sensors on the Sensorian Shield
-    time.sleep(2)
+    time.sleep(2)  # Wait 2 seconds or some sensors won't be ready
     global desired_lux
     desired_lux = SensorsInterface.getAmbientLight()  # Sets the desired light level to that of when the program ran
-    sensor_string = "Light: " + str(desired_lux)  # Add the light value to the string
-    tft_printer.screen_print_rotated(sensor_string, 1)  # Print the completed string to the landscape display
+    print("Desired Light: " + str(desired_lux))  # Print the desired light level
 
 
 # Waits until the brightness changes to ensure the request worked given the current light level and desired direction

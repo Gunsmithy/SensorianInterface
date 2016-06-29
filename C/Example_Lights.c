@@ -1,8 +1,8 @@
 /**
- * @file Test.c
+ * @file Example_Lights.c
  * @author Dylan Kauling
- * @date 24 June 2016
- * @brief Test code to demonstrate functionality of SensorsInterface, TFT_Printer, PiTools and CloudTools
+ * @date 29 June 2016
+ * @brief Example code to adjust the brightness of a Philips Hue light to maintain a particular light level
  */
 
 #include <string.h>
@@ -39,7 +39,7 @@ void setup()
     setupSensorian(); // Set up all the sensors on the Sensorian Shield
     sleep(2); // Wait 2 seconds or some sensors won't be ready
     desired_lux = getAmbientLight();  // Sets the desired light level to that of when the program ran
-    printf("Light: %f\n", getAmbientLight()); //Print the current light level
+    printf("Desired Light: %f\n", desired_lux); //Print the desired light level
 }
 
 // Waits until the brightness changes to ensure the request worked given the current light level and desired direction
