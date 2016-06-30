@@ -16,7 +16,7 @@ To summarize for experts, simply clone/download the repo wherever and run the in
 3. Run `sudo raspi-config` to your liking, remember that you can simply boot to console, no display required.  
 4. Be sure to enable the SPI and I2C interfaces in Advanced Options, and optionally SSH.   
 5. Download/clone the project to a directory by navigating to it and typing the following line  
-  * `git clone https://github.com/Gunsmithy/SensorianInterface.git` 
+  * `git clone https://github.com/Gunsmithy/SensorianInterface.git`  
 6. Change into the new directory using `cd SensorianInterface` then `cd C` or `cd P*`  
 7. Type `chmod +x install.sh` and then run `./install.sh` and wait for it to finish  
 8. When it is finally done installing dependencies, reboot the Pi with `sudo reboot`  
@@ -31,8 +31,8 @@ Check out the example code, `test.c/py`, to see how these APIs can be used to qu
 
 For your benefit, some example programs have also been added to demonstrate some practical applications  
 1. `Example_Lights.c/py` - Adjusts the brightness of a Philips Hue lightbulb to maintain a certain light level  
-  * This could be used to turn up your lights as the sun goes down in a windowed room 
+  * This could be used to turn up your lights as the sun goes down in a windowed room  
 2. `Example_Door.c/py` - Triggers an IFTTT recipe when a door is opened using a magnet on the door frame  
-  * Mount the Pi to the door or frame and the magnet on the other and it will sense when the magnet moves away
+  * Mount the Pi to the door or frame and the magnet on the other and it will sense when the magnet moves away  
 
 Hope you find it useful, feel free to contribute or tell me things you'd like to see!
