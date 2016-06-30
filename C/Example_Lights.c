@@ -12,7 +12,6 @@
 #include "SPI.h"
 #include "TFT.h"
 #include "TFT_Printer.h"
-#include "PiTools.h"
 #include "CloudTools.h"
 #include "SensorsInterface.h"
 
@@ -20,6 +19,7 @@
 char *IFTTT_KEY = "YourIFTTTMakerChannelKey";  // Your API key provided by IFTTT when connecting a Maker channel
 char *IFTTT_EVENT = "HueBrightness";  // The name of the event you chose for the recipe to dim a Hue light
 long IFTTT_TIMEOUT = 5;  // How long to wait in seconds for commands sent to IFTTT.com before timing out
+float TOLERANCE = 2.0;  // How many times the lux levels per Hue brightness setting should be an acceptable range
 
 // Global variables to store the calibrations
 float lux_at_max = 0;  // The light level when the Hue is set to a max brightness of 100
@@ -45,8 +45,8 @@ void setup()
 // Waits until the brightness changes to ensure the request worked given the current light level and desired direction
 void wait_for_change(float pre_request_lux, char *direction)
 {
-    float tolerance = lux_per_bright * 1.5;  // Sensitivity - How much the light should change to be considered different
-    int slept = 0;  // Stores a counter to time out the check for a change in brightness in case the brightness is the same
+    float tolerance = lux_per_bright * TOLERANCE;  // Sensitivity - How much the light should change to be different
+    int slept = 0;  // Stores counter to time out the check for change in brightness in case the brightness is the same
     for(;;) {  // Loops until the brightness changes or it times out
         float current_lux = getAmbientLight();  // Get the current light value to check against in a second
         sleep(1);  // Waits for a second before checking brightness again to see if there was a change
@@ -54,20 +54,20 @@ void wait_for_change(float pre_request_lux, char *direction)
         if ((post_request_lux > pre_request_lux + tolerance || post_request_lux > current_lux + tolerance) &&
                 (strcmp(direction,"BOTH") == 0 || strcmp(direction,"UP") == 0))
         {
-            printf("\nBrightness went up\n");
+            printf("Brightness went up\n");
             sleep(2);  // Waits 2 seconds before breaking the loop in case the bulb is still changing brightness
             break;  // Breaks the loop since a brightness change was detected
         }
         else if ((post_request_lux < pre_request_lux - tolerance || post_request_lux < current_lux - tolerance) &&
                 (strcmp(direction,"BOTH") == 0 || strcmp(direction,"DOWN") == 0))
         {
-            printf("\nBrightness went down\n");
+            printf("Brightness went down\n");
             sleep(2);  // Waits 2 seconds before breaking the loop in case the bulb is still changing brightness
             break;  // Breaks the loop since a brightness change was detected
         }
         if (slept >= 20)  // Gives the check 20 seconds to catch rare edge cases where the IFTTT request takes a long time
         {
-            printf("\nTimed out, brightness may be the same or similar\n");
+            printf("Timed out, brightness may be the same or similar\n");
             sleep(1);  // Waits a second before breaking the loop in case the bulb is still changing brightness
             break;  // Breaks the loop since no brightness change was detected after 30 seconds
         }
@@ -100,8 +100,9 @@ int main(void)
 {
 	setup();  // Set up the sensors for use
     calibrate();  // Calibrate the minimum and maximum light levels for the Philips Hue light
-    printf("Main program commencing...\n");
-    for(;;) {
+    printf("Running...\n");
+    for(;;)
+    {
         float current_lux = getAmbientLight();  // Get the current light level to see if it is in range
         char sensor_string[24] = {0};  // Create a string in which to store the light value and label
         sprintf(sensor_string, "Light: %f", current_lux);  // Add the light value to the string

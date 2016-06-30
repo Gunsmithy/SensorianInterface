@@ -13,9 +13,10 @@ __maintainer__ = "Dylan Kauling"
 __status__ = "Development"
 
 # User defined variables for IFTTT.com/maker Channel API credentials and how long to wait for requests
-IFTTT_KEY = "YourIFTTTMakerChannelKey"
-IFTTT_EVENT = "HueBrightness"
-IFTTT_TIMEOUT = 5
+IFTTT_KEY = "YourIFTTTMakerChannelKey"  # Your API key provided by IFTTT when connecting a Maker channel
+IFTTT_EVENT = "HueBrightness"  # The name of the event you chose for the recipe to dim a Hue light
+IFTTT_TIMEOUT = 5  # How long to wait in seconds for commands sent to IFTTT.com before timing out
+TOLERANCE = 2.0   # How many times the lux levels per Hue brightness setting should be an acceptable range
 
 # Global variables to store the calibrations
 lux_at_max = 0  # The light level when the Hue is set to a max brightness of 100
@@ -28,6 +29,7 @@ current_setting = 0  # The last known value of brightness for the Hue, based on 
 
 # Sets up the Sensorian sensors for use and prints the current light level to the screen to test
 def setup():
+    print("Setting up...")
     SensorsInterface.setupSensorian()  # Prepare the sensors on the Sensorian Shield
     time.sleep(2)  # Wait 2 seconds or some sensors won't be ready
     global desired_lux
@@ -37,7 +39,7 @@ def setup():
 
 # Waits until the brightness changes to ensure the request worked given the current light level and desired direction
 def wait_for_change(pre_request_lux, direction="BOTH"):
-    tolerance = lux_per_bright * 1.5  # Sensitivity - How much the light should change to be considered different
+    tolerance = lux_per_bright * TOLERANCE  # Sensitivity - How much the light should change to be considered different
     slept = 0  # Stores a counter to time out the check for a change in brightness in case the brightness is the same
     while True:  # Loops until the brightness changes or it times out
         current_lux = SensorsInterface.getAmbientLight()  # Get the current light value to check against in a second
@@ -62,6 +64,7 @@ def wait_for_change(pre_request_lux, direction="BOTH"):
 
 # Checks light levels when the Philips Hue light is set to maximum and minimum brightness
 def calibrate():
+    print("Calibrating...")
     pre_request_lux = SensorsInterface.getAmbientLight()  # Gets the current light level before the request
     CloudTools.ifttt_trigger(IFTTT_KEY, IFTTT_EVENT, IFTTT_TIMEOUT, 100)  # Sets the Philips Hue brightness to 100
     wait_for_change(pre_request_lux, "UP")  # Waits until the brightness changes from the request or it times out
@@ -86,6 +89,7 @@ def calibrate():
 
 # Contains the main looping execution of the program
 def main():
+    print("Running...")
     global current_setting
     while True:
         current_lux = SensorsInterface.getAmbientLight()  # Get the current light level to see if it is in range

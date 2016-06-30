@@ -40,6 +40,7 @@ void TFT_Printer_PrintWrap(const int maxChars, const int maxLines, int color, in
     lastLoc = 0; //Start looking for max length lines starting from the 0 position of the message
     newLoc = 0; //No substrings have been found yet in the message so the last position was 0
 	int lineCount = 0; //Counts how many lines have been printed to the display
+	message[strcspn(message, "\r\n")] = 0; //Removes any new line characters from the end of the message
 
     for (i = 0; message[i] != '\0'; ++i, ++newLoc) //Iterate through the message until the end
 	{

@@ -87,7 +87,6 @@ void cloud_get_public_ip(char *buf){
              * Do something nice with it!
              */
             //printf("%s\n",chunk.memory);
-            //printf("BLAH");
             strncpy(buf, chunk.memory, 16);
             buf[strcspn(buf, "\r\n")] = 0; //Removes new line characters from the end
         }
@@ -132,9 +131,13 @@ void cloud_ifttt_trigger(char *key, char *event, long timeout)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
+        {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
+        else
+        {
+            printf("\n");
+        }
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
@@ -185,9 +188,13 @@ void cloud_ifttt_trigger_values(char *key, char *event, long timeout, char *valu
         res = curl_easy_perform(curl);
         /* Check for errors */
         if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-
+        {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
+        else
+        {
+            printf("\n");
+        }
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
