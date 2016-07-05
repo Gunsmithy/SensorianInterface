@@ -32,5 +32,7 @@ void set_rtcc_datetime(int year, int month, int date, int w_day, int hour, int m
 void set_rtcc_alarm(int year, int month, int date, int w_day, int hour, int minute, int second, int match_mode);
 int poll_rtcc_alarm(void);
 void reset_alarm(void);
+void orange_led_on(void);
+void orange_led_off(void);
 
 #endif //C_SENSORSINTERFACE_H

@@ -19,7 +19,7 @@ int lastSize = 1; //The last font size given, defaults to 1
 
 /**
  * @brief Wraps a colored and size string and prints it to the screen as ASCII characters
- * @param maxChars How many characters to fit on each line, no word length should exceed this
+ * @param maxChars How many characters to fit on each line, words will be split should they exceed this
  * @param maxLines How many lines to fit on the display, the message will be cut off if it can't fit
  * @param color Color of text above background.
  * @param background Color of text background.
@@ -64,6 +64,23 @@ void TFT_Printer_PrintWrap(const int maxChars, const int maxLines, int color, in
 						}
 						y += FONT_HEIGHT * size; //Space out the next line by the height of a letter
 						lastLoc = k + 1; //Save the point in the message where the last substring ended
+						lineCount++; //Increase the line counter since a new line was printed
+						break; //Break the backwards for loop to start finding the next substring
+					}
+					else if (k == i - maxChars + 1) //Or the next word is longer than the screen
+					{
+						char subbuff[maxChars + 1]; //Create a substring for the size until the max size
+						memcpy( subbuff, &message[lastLoc], maxChars); //Copy the message until the max size
+						x = 0; //Reset printing to the left-most side of the screen
+						j = 0; //Reset the iterator to 0
+						while (j < maxChars) //Iterate through the new substring
+						{
+							TFT_ASCII(x, y, color, background, subbuff[j], size); //Print a character
+							x += FONT_LENGTH * size; //Space out the next letter by the size of a letter
+							j++; //Increase the iterator
+						}
+						y += FONT_HEIGHT * size; //Space out the next line by the height of a letter
+						lastLoc = k + maxChars - 1; //Save the point in the message where the last substring ended
 						lineCount++; //Increase the line counter since a new line was printed
 						break; //Break the backwards for loop to start finding the next substring
 					}

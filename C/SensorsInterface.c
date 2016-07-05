@@ -321,3 +321,13 @@ void reset_alarm(void)
 		MCP79410_DisableAlarm(RTCC_ZERO);
 	}
 }
+
+void orange_led_on(void)
+{
+	LED_on(); 
+}
+
+void orange_led_off(void)
+{
+	LED_off(); 
+}

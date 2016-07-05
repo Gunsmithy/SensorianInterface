@@ -24,6 +24,8 @@ int main(void)
     setupSensorian(); //Set up all the sensors on the Sensorian Shield
     sleep(2); //Wait 2 seconds or some sensors won't be ready
 
+	orange_led_on();  //Turn on the Sensorian Orange LED
+	
     printf("Light: %f\n", getAmbientLight()); //Print the current light level
     pollMPL(); //Poll the sensor for the current temperature, altitude and pressure
     printf("Temperature: %d\n", getTemperature()); //Print the last polled temperature
@@ -98,6 +100,8 @@ int main(void)
     strcat(cpu_serial_printed, cpu_serial); //Add the string containing the serial to the end of the string
     TFT_Printer_PrintAll(LANDSCAPE_INV, WHITE, BLACK, cpu_serial_printed, 1); //Prints CPU serial to the LCD
     sleep(1);
+
+	orange_led_off();  //Turn off the Sensorian Orange LED
 
     //printf("Rebooting\n");
     //pi_reboot(5); //Reboots the Raspberry Pi in the given number of seconds without blocking program execution
