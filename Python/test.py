@@ -16,7 +16,14 @@ SensorsInterface.setupSensorian()  # Prepare the sensors on the Sensorian Shield
 
 SensorsInterface.ledOn()  # Turn on the Sensorian Orange LED
 
-tft_printer.screen_print_rotated("Hello world!", 0)  # Print Hello World to the display in Portrait mode
+# Print White Hello World to the display in Portrait mode
+tft_printer.screen_print_rotated("Hello world!", 0)
+
+time.sleep(2)  # Wait for 2 seconds before continuing.
+
+# Print a longer black string on a white background to the display in Landscape mode
+tft_printer.screen_print_rotated("This is a longer string to demonstrate the wrapping and text background", 1,
+                                 colour=(0, 0, 0, 0), background=(255, 255, 255))
 
 time.sleep(2)  # Wait for 2 seconds before continuing.
 

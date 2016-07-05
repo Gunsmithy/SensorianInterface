@@ -7,189 +7,210 @@ import calendar
 
 lib_sensorian = CDLL("./libsensorianplus.so")
 
+
+# Call the C version of SensorsInterface to set up all the Sensorian sensors and LCD
 def setupSensorian():
-	lib_sensorian.setupSensorian()
+    lib_sensorian.setupSensorian()
 
+
+# Call the C version of SensorsInterface to turn on the Sensorian's orange LED
 def ledOn():
-	lib_sensorian.LED_on()
+    lib_sensorian.LED_on()
 
+
+# Call the C version of SensorsInterface to turn off the Sensorian's orange LED
 def ledOff():
-	lib_sensorian.LED_off()
+    lib_sensorian.LED_off()
 
+
+# Call the C version of SensorsInterface to get the ambient light level
 def getAmbientLight():
-	lightCall = lib_sensorian.getAmbientLight
-	lightCall.restype = c_float
-	lightString = str(lightCall())
-	return float(lightString)
+    lightCall = lib_sensorian.getAmbientLight  # Creates a C function to be called later
+    lightCall.restype = c_float  # Tells Python to expect a return type of float rather than the default of int
+    lightString = str(lightCall())  # Calls the C function and stores the result in a string
+    return float(lightString)  # Returns a float when called
 
 
-mpl_last_polled = -1
+mpl_last_polled = -1  # Used to ensure the temperature/altitude/pressure sensor is not polled too often
 
-#Ensure Thermometer is not polled too often
+
+# Call the C version of SensorsInterface to get the ambient temperature
 def getTemperature():
-	global mpl_last_polled
-	if mpl_last_polled == -1:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	elif time.time() - mpl_last_polled > 30:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	return lib_sensorian.getTemperature()
+    global mpl_last_polled  # Declares mpl_last_polled to be global since all three sensors share the timer
+    if mpl_last_polled == -1:  # If this is the first time the sensor is polled, it is okay to poll it
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+
+    elif time.time() - mpl_last_polled > 30:  # If it has been at least 30 seconds since the last poll, it is safe
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+
+    return lib_sensorian.getTemperature()  # Calls the C function to get the current temperature and return an int
 
 
-#Ensure Altimeter is not polled too often
+# Call the C version of SensorsInterface to get the altitude
 def getAltitude():
-	global mpl_last_polled
-	if mpl_last_polled == -1:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	elif time.time() - mpl_last_polled > 30:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	return lib_sensorian.getAltitude()
+    global mpl_last_polled  # Declares mpl_last_polled to be global since all three sensors share the timer
+    if mpl_last_polled == -1:  # If this is the first time the sensor is polled, it is okay to poll it
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
 
+    elif time.time() - mpl_last_polled > 30:  # If it has been at least 30 seconds since the last poll, it is safe
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+
+    return lib_sensorian.getAltitude()  # Calls the C function to get the current altitude and return an int
+
+
+# Call the C version of SensorsInterface to get the barometric pressure
 def getBarometricPressure():
-	global mpl_last_polled
-	if mpl_last_polled == -1:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	elif time.time() - mpl_last_polled > 30:
-		print "Polling MPL3115A2"
-		lib_sensorian.pollMPL()
-		mpl_last_polled = time.time()
-	
-	return lib_sensorian.getBarometricPressure()
+    global mpl_last_polled  # Declares mpl_last_polled to be global since all three sensors share the timer
+    if mpl_last_polled == -1:  # If this is the first time the sensor is polled, it is okay to poll it
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+
+    elif time.time() - mpl_last_polled > 30:  # If it has been at least 30 seconds since the last poll, it is safe
+        print "Polling MPL3115A2"
+        lib_sensorian.pollMPL()  # Polls the sensor since it is confirmed okay to do so
+        mpl_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+
+    return lib_sensorian.getBarometricPressure()  # Calls the C function to get the current pressure and return an int
 
 
+# Call the C version of SensorsInterface to poll for button presses
 def getTouchpad():
-	return lib_sensorian.CAP1203_ReadPressedButton()
+    return lib_sensorian.CAP1203_ReadPressedButton()
 
 
-fxos_last_polled = -1
-#Ensure Accelerometer is not polled too often
+fxos_last_polled = -1  # Used to ensure the Accelerometer/Magnetometer sensor is not polled too often
+
+
+# Call the C version of SensorsInterface to get the current forces on the accelerometer
 def getAccelerometer():
-	global fxos_last_polled
-	if fxos_last_polled == -1:
-		#Poll
-		lib_sensorian.pollFXOS()
-		fxos_last_polled = time.time()
-	elif time.time() - fxos_last_polled > 1:
-		lib_sensorian.pollFXOS()
-		fxos_last_polled = time.time()
-	
-	ac_x = lib_sensorian.getAccelX()
-	ac_y = lib_sensorian.getAccelY()
-	ac_z = lib_sensorian.getAccelZ()
-	return (ac_x, ac_y, ac_z)
+    global fxos_last_polled  # Declares fxos_last_polled to be global since the two sensors share the timer
+    if fxos_last_polled == -1:  # If this is the first time the sensor is polled, it is okay to poll it
+        lib_sensorian.pollFXOS()  # Polls the sensor since it is confirmed okay to do so
+        fxos_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+    elif time.time() - fxos_last_polled > 1:  # If it has been at least 1 second since the last poll, it is safe
+        lib_sensorian.pollFXOS()  # Polls the sensor since it is confirmed okay to do so
+        fxos_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
 
-#Ensure Magnetometer is not polled too often
+    ac_x = lib_sensorian.getAccelX()  # Calls the C function to get the current x forces which returns an int
+    ac_y = lib_sensorian.getAccelY()  # Calls the C function to get the current y forces which returns an int
+    ac_z = lib_sensorian.getAccelZ()  # Calls the C function to get the current z forces which returns an int
+    return ac_x, ac_y, ac_z  # Return all three of the forces from the accelerometer as integers
+
+
+# Call the C version of SensorsInterface to get the current magnetic forces on the magnetometer
 def getMagnetometer():
-	global fxos_last_polled
-	if fxos_last_polled == -1:
-		#Poll
-		lib_sensorian.pollFXOS()
-		fxos_last_polled = time.time()
-	elif time.time() - fxos_last_polled > 1:
-		lib_sensorian.pollFXOS()
-		fxos_last_polled = time.time()
-	
-	mag_x = lib_sensorian.getMagX()
-	mag_y = lib_sensorian.getMagY()
-	mag_z = lib_sensorian.getMagZ()
-	return (mag_x, mag_y, mag_z)
+    global fxos_last_polled  # Declares fxos_last_polled to be global since the two sensors share the timer
+    if fxos_last_polled == -1:  # If this is the first time the sensor is polled, it is okay to poll it
+        lib_sensorian.pollFXOS()  # Polls the sensor since it is confirmed okay to do so
+        fxos_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
+    elif time.time() - fxos_last_polled > 1:  # If it has been at least 1 second since the last poll, it is safe
+        lib_sensorian.pollFXOS()  # Polls the sensor since it is confirmed okay to do so
+        fxos_last_polled = time.time()  # Sets the last time the sensor was polled to the current time
 
+    mag_x = lib_sensorian.getMagX()  # Calls the C function to get the current x magnetic forces which returns an int
+    mag_y = lib_sensorian.getMagY()  # Calls the C function to get the current y magnetic forces which returns an int
+    mag_z = lib_sensorian.getMagZ()  # Calls the C function to get the current z magnetic forces which returns an int
+    return mag_x, mag_y, mag_z  # Return all three of the magnetic forces from the magnetometer as integers
+
+
+# Call the C version of SensorsInterface to get the current date and time from the real time clock
 def getRTCCtime():
-	#Poll RTCC
-	lib_sensorian.poll_rtcc()
-	#Get year,month,date,hour,minute,second
-	year = lib_sensorian.get_rtcc_year()
-	month = lib_sensorian.get_rtcc_month()
-	date = lib_sensorian.get_rtcc_date()
-	hour = lib_sensorian.get_rtcc_hour()
-	minute = lib_sensorian.get_rtcc_minute()
-	second = lib_sensorian.get_rtcc_second()
-	return (year,month,date,hour,minute,second)
-
-#Warning: completely ignores 'second' argument.
-def setRTCCtime(year,month,date,hour,minute,second):
-	#Check that the arguments are reasonable
-	if year < 1900:
-		print "Invalid year"
-		return
-	
-	if month not in range(1,13):
-		print "Invalid month"
-		return
-	
-	if date not in range(1,32):
-		print "Invalid date"
-		return
-	
-	if hour not in range(0,24):
-		print "Invalid hour"
-		return
-	
-	if minute not in range(0,60):
-		print "Invalid minute"
-		return
-	
-	if second not in range(0,60):
-		print "Invalid second"
-		return
-	
-	#Get the weekday for the given year, month, date
-	w_day = calendar.weekday(year,month,date)
-	#Set this on the Sensorian RTCC
-	lib_sensorian.set_rtcc_datetime(((year+1900)-2000) % 100, month, date,w_day, hour, minute ,0)
+    lib_sensorian.poll_rtcc()  # Call the C function to poll the real time clock, which has no limit on frequency
+    # Call the respective C functions to get the year,month,date,hour,minute,second as integers
+    year = lib_sensorian.get_rtcc_year()
+    month = lib_sensorian.get_rtcc_month()
+    date = lib_sensorian.get_rtcc_date()
+    hour = lib_sensorian.get_rtcc_hour()
+    minute = lib_sensorian.get_rtcc_minute()
+    second = lib_sensorian.get_rtcc_second()
+    return year, month, date, hour, minute, second  # Return all the real time clock values as integers
 
 
-def setRTCCalarm(year,month,date,hour,minute,second,mode):
-	#Check that the arguments are reasonable
-	if year < 1900:
-		print "Invalid year"
-		return
-	
-	if month not in range(1,13):
-		print "Invalid month"
-		return
-	
-	if date not in range(1,32):
-		print "Invalid date"
-		return
-	
-	if hour not in range(0,24):
-		print "Invalid hour"
-		return
-	
-	if minute not in range(0,60):
-		print "Invalid minute"
-		return
-	
-	if second not in range(0,60):
-		print "Invalid second"
-		return
-	
-	#Get the weekday for the given year, month, date
-	w_day = calendar.weekday(year,month,date)
-	#Set this on the Sensorian RTCC alarm
-	lib_sensorian.set_rtcc_alarm(((year+1900)-2000) % 100, month, date,w_day, hour, minute ,second,mode)
+# Call the C version of SensorsInterface to set the current date and time on the real time clock and calendar
+# Warning: completely ignores 'second' argument.
+def setRTCCtime(year, month, date, hour, minute, second):
+    # Check that the arguments are reasonable
+    if year < 1900:  # Cannot set the year to before the year 1900
+        print "Invalid year"
+        return
 
+    if month not in range(1, 13):  # There are only 12 months in a year
+        print "Invalid month"
+        return
+
+    if date not in range(1, 32):  # There are at most 31 days in a month
+        print "Invalid date"
+        return
+
+    if hour not in range(0, 24):  # There are hours 0 to 23 in a 24 hour clock
+        print "Invalid hour"
+        return
+
+    if minute not in range(0, 60):  # There are 0 to 59 minutes in an hour
+        print "Invalid minute"
+        return
+
+    if second not in range(0, 60):  # There are 0 to 59 seconds in a minute
+        print "Invalid second"
+        return
+
+    w_day = calendar.weekday(year, month, date)  # Get the weekday for the given year, month, date
+    # Set the values if valid to the Sensorian Real Time Clock and Calendar
+    lib_sensorian.set_rtcc_datetime(((year + 1900) - 2000) % 100, month, date, w_day, hour, minute, 0)
+
+
+# Call the C version of SensorsInterface to set an alarm on the real time clock
+def setRTCCalarm(year, month, date, hour, minute, second, mode):
+    # Check that the arguments are reasonable
+    if year < 1900:  # Cannot set the year to before the year 1900
+        print "Invalid year"
+        return
+
+    if month not in range(1, 13):  # There are only 12 months in a year
+        print "Invalid month"
+        return
+
+    if date not in range(1, 32):  # There are at most 31 days in a month
+        print "Invalid date"
+        return
+
+    if hour not in range(0, 24):  # There are hours 0 to 23 in a 24 hour clock
+        print "Invalid hour"
+        return
+
+    if minute not in range(0, 60):  # There are 0 to 59 minutes in an hour
+        print "Invalid minute"
+        return
+
+    if second not in range(0, 60):  # There are 0 to 59 seconds in a minute
+        print "Invalid second"
+        return
+
+    w_day = calendar.weekday(year, month, date)  # Get the weekday for the given year, month, date
+    # Set the values if valid to an alarm on the Sensorian Real Time Clock and Calendar
+    lib_sensorian.set_rtcc_alarm(((year + 1900) - 2000) % 100, month, date, w_day, hour, minute, second, mode)
+
+
+# Call the C version of SensorsInterface to check for alarms on the real time clock
 def pollRTCCalarm():
-	return lib_sensorian.poll_rtcc_alarm()
+    return lib_sensorian.poll_rtcc_alarm()
 
+
+# Call the C version of SensorsInterface to clear an alarm state on the real time clock
 def resetRTCCalarm():
-	lib_sensorian.reset_alarm()
+    lib_sensorian.reset_alarm()
 
 
 __author__ = "Michael Lescisin"
+__maintainer__ = "Dylan Kauling"
 __copyright__ = "Copyright Sensorian 2015"
+__status__ = "Development"

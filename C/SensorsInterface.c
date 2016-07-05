@@ -12,6 +12,10 @@
 
 RTCC_Struct *current_time;
 
+
+/**
+ * Sets up all the Sensorian sensors, buttons, clock and LED for use by the program
+ */
 int setupSensorian(void)
 {
 	printf("Initializing sensors.\r\n");
@@ -58,17 +62,24 @@ int setupSensorian(void)
 	return 0;
 }
 
+/**
+ * Polls the ambient light sensor for lux level and returns it as a c_float, needs to be converted in the Python version
+ */
 float getAmbientLight(void)
 {
-	unsigned int channel1 = AL_ReadChannel(CH0);
-	unsigned int channel2 = AL_ReadChannel(CH1);
-	return AL_Lux(channel1,channel2);
+	unsigned int channel1 = AL_ReadChannel(CH0);  //Get a light reading from the first channel
+	unsigned int channel2 = AL_ReadChannel(CH1);  //Get a light reading from the second channel
+	return AL_Lux(channel1,channel2);  //Return a c_float of the calculated lux level
 }
 
 float mpl_temperature = 0.0; //Temperature recorded from MPL3115A2.
 float mpl_altitude = 0.0; //Altitude recorded from MPL3115A2.
 float mpl_pressure = 0.0; //Barometric pressure from MPL3115A2.
 
+
+/**
+ * Polls the sensor for temperature, altitude and pressure sequentially and stores their values in their global buffers
+ */
 void pollMPL(void)
 {
 	mpl_temperature = MPL3115A2_ReadTemperature();
@@ -80,25 +91,27 @@ void pollMPL(void)
 	mpl_pressure = MPL3115A2_ReadBarometricPressure();
 }
 
+/**
+ * Gets the ambient temperature from when the last time the MPL sensor was polled
+ */
 int getTemperature(void)
 {
-	//float temp = MPL3115A2_ReadTemperature();
 	return (int) mpl_temperature;
 }
 
+/**
+ * Gets the altitude from when the last time the MPL sensor was polled
+ */
 int getAltitude(void)
 {
-	//MPL3115A2_StandbyMode();
-	//MPL3115A2_AltimeterMode();
-	//float alt = MPL3115A2_ReadAltitude();
 	return (int) mpl_altitude;
 }
 
+/**
+ * Gets the barometric pressure from when the last time the MPL sensor was polled
+ */
 int getBarometricPressure(void)
 {
-	//MPL3115A2_StandbyMode();
-	//MPL3115A2_BarometerMode();
-	//float press = MPL3115A2_ReadBarometricPressure();	//Take a pressure reading
 	return (int) mpl_pressure;
 }
 
@@ -106,7 +119,9 @@ int getBarometricPressure(void)
 rawdata_t magnetometerBuffer = {.x = 0, .y = 0, .z = 0}; //Magnetometer data
 rawdata_t accelerometerBuffer = {.x = 0, .y = 0, .z = 0}; //Accelerometer data
 
-
+/**
+ * Polls the accelerometer and magnetometer simultaneously and stores their values in the global buffer
+ */
 void pollFXOS(void)
 {
 	if(FXOS8700CQ_ReadStatusReg() & 0x80)
@@ -173,7 +188,7 @@ int getAccelZ(void)
 	return (int) accelerometerBuffer.z;
 }
 
-//polls data from the realtime clock
+//polls data from the real time clock
 void poll_rtcc(void)
 {
 	current_time = MCP79410_GetTime();
@@ -295,7 +310,7 @@ void set_rtcc_alarm(int year, int month, int date, int w_day, int hour, int minu
 			break;
 	}
 	MCP79410_SetAlarmMFPPolarity(LOWPOL,RTCC_ZERO);
-	MCP79410_SetMFP_Functionality(ALARM_INTERRUPT);	 //Set alaram interrupt
+	MCP79410_SetMFP_Functionality(ALARM_INTERRUPT);	 //Set alarm interrupt
 }
 
 /**
@@ -303,9 +318,8 @@ void set_rtcc_alarm(int year, int month, int date, int w_day, int hour, int minu
  */
 int poll_rtcc_alarm(void)
 {
-	//PinLevel_t pval;
 	AlarmStatus_t s = MCP79410_GetAlarmStatus(RTCC_ZERO); //Check alarm status
-	return (int) s;
+	return (int) s;  //Returns 0 if not triggered
 }
 
 /**
@@ -315,19 +329,25 @@ void reset_alarm(void)
 {
 	AlarmStatus_t s = MCP79410_GetAlarmStatus(RTCC_ZERO); //Check alarm status
 	
-	if ((int) s != 0)
+	if ((int) s != 0)  //If the alarm is triggered
 	{
-		MCP79410_ClearInterruptFlag(RTCC_ZERO);
-		MCP79410_DisableAlarm(RTCC_ZERO);
+		MCP79410_ClearInterruptFlag(RTCC_ZERO);  //Alarms trigger an interrupt so clear that
+		MCP79410_DisableAlarm(RTCC_ZERO);  //Turn off the alarm since it is confirmed to have triggered
 	}
 }
 
+/**
+ * Turn on the orange LED on the Sensorian
+ */
 void orange_led_on(void)
 {
-	LED_on(); 
+	LED_on();  //Call the function to do so from TFT.c so it isn't called implicitly from the program
 }
 
+/**
+ * Turn off the orange LED on the Sensorian
+ */
 void orange_led_off(void)
 {
-	LED_off(); 
+	LED_off();  //Call the function to do so from TFT.c so it isn't called implicitly from the program
 }
