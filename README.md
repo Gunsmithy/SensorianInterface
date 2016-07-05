@@ -20,7 +20,7 @@ To summarize for experts, simply clone/download the repo wherever and run the in
 6. Change into the new directory using `cd SensorianInterface` then `cd C` or `cd P*`  
 7. Type `chmod +x install.sh` and then run `./install.sh` and wait for it to finish  
 8. When it is finally done installing dependencies, reboot the Pi with `sudo reboot`  
-9. Finally, `sudo python test.py` or `sudo make && sudo ./TEST` to run the included tests!  
+9. Finally, `sudo python test.py` or `sudo make && sudo ./Test` to run the included tests!  
 
 In summary, the code bases are broken into 4 main libraries:  
 1. `SensorsInterface.c/py` - These are the main helper APIs for easily getting all sensor values  
