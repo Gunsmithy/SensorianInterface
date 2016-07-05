@@ -16,7 +16,7 @@ To summarize for experts, simply clone/download the repo wherever and run the in
 3. Run `sudo raspi-config` to your liking, remember that you can simply boot to console, no display required.  
 4. Be sure to enable the SPI and I2C interfaces in Advanced Options, and optionally SSH.   
 5. Download/clone the project to a directory by navigating to it and typing the following line  
-  * `git clone https://github.com/Gunsmithy/SensorianInterface.git`  
+  * `git clone https://github.com/sensorian/SensorianInterface.git`  
 6. Change into the new directory using `cd SensorianInterface` then `cd C` or `cd P*`  
 7. Type `chmod +x install.sh` and then run `./install.sh` and wait for it to finish  
 8. When it is finally done installing dependencies, reboot the Pi with `sudo reboot`  
