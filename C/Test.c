@@ -17,7 +17,6 @@ int main(void)
 {
     TFT_Setup(); //Set up the TFT LCD
     setupSensorian(); //Set up all the sensors on the Sensorian Shield
-    sleep(2); //Wait 2 seconds or some sensors won't be ready
 
 	orange_led_on();  //Turn on the Sensorian Orange LED
 	

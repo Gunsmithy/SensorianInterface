@@ -29,10 +29,8 @@ int zClosed = 0;
 // Sets up the Sensorian sensors for use and prints the current magnetic forces to the screen to test
 void setup()
 {
-    printf("Setting up...\n");
     TFT_Setup(); // Set up the TFT LCD
     setupSensorian(); // Set up all the sensors on the Sensorian Shield
-    sleep(2); // Wait 2 seconds or some sensors won't be ready
     pollFXOS(); //Poll the sensor for the current accelerometer and magnetometer values
     char magnet_string[64];
     sprintf(magnet_string, "Magnetometer X: %d, Y: %d, Z: %d\n", getMagX(), getMagY(), getMagZ());

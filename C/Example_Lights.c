@@ -29,10 +29,8 @@ int current_setting = 0;  // The last known value of brightness for the Hue, bas
 
 void setup()
 {
-    printf("Setting up...\n");
     TFT_Setup(); // Set up the TFT LCD
     setupSensorian(); // Set up all the sensors on the Sensorian Shield
-    sleep(2); // Wait 2 seconds or some sensors won't be ready
     desired_lux = getAmbientLight();  // Sets the desired light level to that of when the program ran
     printf("Desired Light: %f\n", desired_lux); //Print the desired light level
 }

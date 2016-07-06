@@ -13,22 +13,43 @@ __copyright__ = "Copyright Sensorian 2015"
 __maintainer__ = "Dylan Kauling"
 __status__ = "Development"
 
+## @var LINE_SPACING
+# The number of pixels of space to give each line of text, ie. the rendered height of the chosen font
 LINE_SPACING = 12
+## @var LINES_VERTICAL
+# The number of lines that will fit on the screen in a portrait orientation
 LINES_VERTICAL = 10
+## @var LINES_HORIZONTAL
+# The number of lines that will fit on the screen in a landscape orientation
 LINES_HORIZONTAL = 9
 
+## @var height
+# The height of the TFT LCD in pixels
 height = GLCD.TFT_HEIGHT
+## @var width
+# The width of the TFT LCD in pixels
 width = GLCD.TFT_WIDTH
 
+## @var disp
+# Stores a TFT LCD class object to be used for interacting with the LCD
 disp = GLCD.TFT()  # Create TFT LCD display class.
 disp.initialize()  # Initialize display.
 disp.clear()  # Alternatively can clear to a black screen by calling:
-draw = disp.draw()  # Get a PIL Draw object to start drawing on the display buffer
-font = ImageFont.truetype('/usr/share/fonts/truetype/freefont/FreeSansBold.ttf', 14)  # use a truetype font
+
+## @var draw
+# Stores a PIL/Pillow Draw object to be used for drawing on the display buffer
+draw = disp.draw()
+
+## @var font
+# The TrueType font to be used when drawing to the screen
+font = ImageFont.truetype('/usr/share/fonts/truetype/freefont/FreeSansBold.ttf', 14)
 
 
-# Print a string to the LCD at a given position and angle, called by screen_print_rotated
 def draw_rotated_text(text, position, angle, draw_passed, colour, background, font_passed=font):
+    """Print a string to the LCD at a given position and angle.
+
+    Called by screen_print_rotated().
+    """
     # Get width and height/size of font to be fit on the screen
     text_width, text_height = draw_passed.textsize(text, font=font_passed)
     # Create a new image with transparent background to store the text.
@@ -42,8 +63,11 @@ def draw_rotated_text(text, position, angle, draw_passed, colour, background, fo
     draw_passed.bitmap(position, rotated)
 
 
-# Prints a string to the LCD in portrait mode
 def screen_print(text):
+    """Prints a string to the LCD in portrait mode.
+
+    Called by screen_print_rotated().
+    """
     line_length = 16  # The number of characters that fit in a line in portrait mode with the default font
     text = textwrap.wrap(text, line_length)  # Wrap the passed string to fit the screen as best as possible
     if len(text) > LINES_VERTICAL:  # If the string won't fit the screen, only use how much will fit
@@ -54,18 +78,17 @@ def screen_print(text):
     disp.display()  # Display the drawn text
 
 
-# Prints text to the TFT-LCD display based on the specified orientation, calls draw_rotated_text
 def screen_print_rotated(text, orientation, colour=(255, 255, 255), background=(0, 0, 0, 0)):
     """
     Prints text to the TFT-LCD display based on the specified orientation.
         Orientations:
             0: Text is printed so that it is readable with the SD card pointing
-                upwards and the screen facing the user.
+                upwards and the screen facing the user. Calls screen_print().
 
             1: RPi + Sensorian is in direction of +Z towards the user, +Y
                 towards ceiling, and +X towards the user's right hand.
                 Capacitive touch button texts 'B1', 'B2', 'B3' are in their
-                normal reading orientation.
+                normal reading orientation. Calls draw_rotated_text().
     """
     if orientation == 0:  # If drawing in portrait mode
         screen_print(text)  # Call the function specifically simplified for portrait mode

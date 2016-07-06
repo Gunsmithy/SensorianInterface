@@ -13,8 +13,11 @@ __maintainer__ = "Dylan Kauling"
 __status__ = "Development"
 
 
-# Returns the global CPU serial variable
 def get_cpu_serial():
+    """Returns the Raspberry Pi's unique CPU serial string.
+
+    Can be used to uniquely identify the Pi for use in multi-Pi systems.
+    """
     # Extract serial from cpuinfo file
     temp_serial = "0000000000000000"
     # Get cpu serial from the designated CPU info file
@@ -39,8 +42,8 @@ def get_cpu_serial():
         return temp_serial
 
 
-# Get the current temperature of the Raspberry Pi's CPU
 def get_cpu_temperature():
+    """Returns a float of the Raspberry Pi's current CPU temperature."""
     temp_path = '/sys/class/thermal/thermal_zone0/temp'
     temp_file = open(temp_path)
     cpu = temp_file.read()
@@ -48,8 +51,11 @@ def get_cpu_temperature():
     return float(cpu) / 1000
 
 
-# Get the IP of the passed interface
 def get_interface_ip(interface):
+    """Returns the IP address of the passed interface, defaults to 0.0.0.0.
+
+    Expects a string like lo, eth0, wlan0, etc.
+    """
     # Create a socket to use to query the interface
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # Try to get the IP of the passed interface
@@ -69,23 +75,35 @@ def get_interface_ip(interface):
     return ipaddr
 
 
-# Calls the shutdown.py helper script to shutdown the pi after a given delay in seconds, defaults to 5
 def shutdown_pi_blocking(delay=5):
+    """Shuts down the Pi after a given delay in seconds. Blocks program execution.
+
+    Calls the shutdown.py helper script. Defaults to 5 seconds.
+    """
     os.system("sudo python shutdown.py -h --time=" + str(delay))
 
 
-# Calls the normally blocking shutdown_pi_blocking function in a separate process to be non blocking	
 def shutdown_pi(delay=5):
+    """Shuts down the Pi after a given delay in seconds. Does not block program execution.
+
+    Calls shutdown_pi_blocking() in a separate process. Defaults to 5 seconds.
+    """
     shutdown_helper = Process(target=shutdown_pi_blocking, args=(delay,))
     shutdown_helper.start()
 
 
-# Calls the shutdown.py helper script to reboot the pi after a given delay in seconds, defaults to 5
 def reboot_pi_blocking(delay=5):
+    """Reboots the Pi after a given delay in seconds. Blocks program execution.
+
+    Calls the shutdown.py helper script.  Defaults to 5 seconds.
+    """
     os.system("sudo python shutdown.py -r --time=" + str(delay))
 
 
-# Calls the normally blocking reboot_pi_blocking function in a separate process to be non blocking
 def reboot_pi(delay=5):
+    """Reboots the Pi after a given delay in seconds. Does not block program execution.
+
+    Calls reboot_pi_blocking() in a separate process.  Defaults to 5 seconds.
+    """
     reboot_helper = Process(target=reboot_pi_blocking, args=(delay,))
     reboot_helper.start()

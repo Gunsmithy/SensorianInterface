@@ -1,5 +1,6 @@
 #include <bcm2835.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "MPL3115A2.h"
 #include "APDS9300.h"
 #include "CAP1203.h"
@@ -59,6 +60,9 @@ int setupSensorian(void)
 	}
 	MCP79410_Initialize();	//Initialize RTCC with system time and date
 	current_time = (RTCC_Struct *) malloc(sizeof(RTCC_Struct));
+
+	sleep(2); // Wait 2 seconds or some sensors won't be ready
+	printf("Sensors initialized.\n");
 	return 0;
 }
 
