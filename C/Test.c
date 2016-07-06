@@ -8,8 +8,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "SPI.h"
-#include "TFT.h"
 #include "TFT_Printer.h"
 #include "PiTools.h"
 #include "CloudTools.h"
@@ -17,10 +15,7 @@
 
 int main(void)
 {
-	SPI_Initialize(); //Prepare the SPI bus for use by the LCD
-	TFT_Initialize(); //Prepare the TFT LCD for use
-	TFT_Background(BLACK); //Clear the screen to Black
-
+    TFT_Setup(); //Set up the TFT LCD
     setupSensorian(); //Set up all the sensors on the Sensorian Shield
     sleep(2); //Wait 2 seconds or some sensors won't be ready
 

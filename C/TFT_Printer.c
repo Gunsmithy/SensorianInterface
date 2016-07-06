@@ -18,6 +18,17 @@ int lastBackground = BLACK; //The last background color given, defaults to Black
 int lastSize = 1; //The last font size given, defaults to 1
 
 /**
+ * @brief Prepares the TFT LCD and its SPI bus for use, clearing the screen to black as well
+ * @return none
+ */
+void TFT_Setup()
+{
+    SPI_Initialize(); //Prepare the SPI bus for use by the LCD
+    TFT_Initialize(); //Prepare the TFT LCD for use
+    TFT_Background(BLACK); //Clear the screen to Black
+}
+
+/**
  * @brief Wraps a colored and size string and prints it to the screen as ASCII characters
  * @param maxChars How many characters to fit on each line, words will be split should they exceed this
  * @param maxLines How many lines to fit on the display, the message will be cut off if it can't fit

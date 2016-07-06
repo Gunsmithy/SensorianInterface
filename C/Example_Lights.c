@@ -9,8 +9,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <math.h>
-#include "SPI.h"
-#include "TFT.h"
 #include "TFT_Printer.h"
 #include "CloudTools.h"
 #include "SensorsInterface.h"
@@ -32,10 +30,7 @@ int current_setting = 0;  // The last known value of brightness for the Hue, bas
 void setup()
 {
     printf("Setting up...\n");
-    SPI_Initialize(); // Prepare the SPI bus for use by the LCD
-    TFT_Initialize(); // Prepare the TFT LCD for use
-    TFT_Background(BLACK); // Clear the screen to Black
-
+    TFT_Setup(); // Set up the TFT LCD
     setupSensorian(); // Set up all the sensors on the Sensorian Shield
     sleep(2); // Wait 2 seconds or some sensors won't be ready
     desired_lux = getAmbientLight();  // Sets the desired light level to that of when the program ran
