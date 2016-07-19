@@ -1,3 +1,11 @@
+/**
+ * @file SensorsInterface.c
+ * @author Michael Lescisin
+ * @author Dylan Kauling
+ * @date 06 July 2016
+ * @brief Controls the various sensors and modules on the Sensorian Shield
+ */
+
 #include <bcm2835.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -11,11 +19,12 @@
 #include "Utilities.h"
 #include "SensorsInterface.h"
 
-RTCC_Struct *current_time;
+RTCC_Struct *current_time; /*!< Stores last polled date and time */
 
 
 /**
- * Sets up all the Sensorian sensors, buttons, clock and LED for use by the program
+ * @brief Sets up all the Sensorian sensors, buttons, clock and LED for use by the program
+ * @return 0 upon successful setup
  */
 int setupSensorian(void)
 {
@@ -67,7 +76,8 @@ int setupSensorian(void)
 }
 
 /**
- * Polls the ambient light sensor for lux level and returns it as a c_float, needs to be converted in the Python version
+ * @brief Polls the ambient light sensor for lux level and returns it as a c_float, needs to be converted in the Python version
+ * @return float of the calculated current lux level
  */
 float getAmbientLight(void)
 {
@@ -76,13 +86,13 @@ float getAmbientLight(void)
 	return AL_Lux(channel1,channel2);  //Return a c_float of the calculated lux level
 }
 
-float mpl_temperature = 0.0; //Temperature recorded from MPL3115A2.
-float mpl_altitude = 0.0; //Altitude recorded from MPL3115A2.
-float mpl_pressure = 0.0; //Barometric pressure from MPL3115A2.
+float mpl_temperature = 0.0; /*!< Stores last Temperature polled from MPL3115A2 */
+float mpl_altitude = 0.0; /*!< Stores last Altitude polled from MPL3115A2 */
+float mpl_pressure = 0.0; /*!< Stores last Barometric Pressure polled from MPL3115A2 */
 
 
 /**
- * Polls the sensor for temperature, altitude and pressure sequentially and stores their values in their global buffers
+ * @brief Polls the sensor for temperature, altitude and pressure sequentially and stores their values in their global buffers
  */
 void pollMPL(void)
 {
@@ -96,7 +106,8 @@ void pollMPL(void)
 }
 
 /**
- * Gets the ambient temperature from when the last time the MPL sensor was polled
+ * @brief Gets the ambient temperature from when the last time the MPL sensor was polled
+ * @return int of the ambient temperature from the last poll
  */
 int getTemperature(void)
 {
@@ -104,7 +115,8 @@ int getTemperature(void)
 }
 
 /**
- * Gets the altitude from when the last time the MPL sensor was polled
+ * @brief Gets the altitude from when the last time the MPL sensor was polled
+ * @return int of the altitude from the last poll
  */
 int getAltitude(void)
 {
@@ -112,7 +124,8 @@ int getAltitude(void)
 }
 
 /**
- * Gets the barometric pressure from when the last time the MPL sensor was polled
+ * @brief Gets the barometric pressure from when the last time the MPL sensor was polled
+ * @return int of the barometric pressure from the last poll
  */
 int getBarometricPressure(void)
 {
@@ -120,17 +133,16 @@ int getBarometricPressure(void)
 }
 
 
-rawdata_t magnetometerBuffer = {.x = 0, .y = 0, .z = 0}; //Magnetometer data
-rawdata_t accelerometerBuffer = {.x = 0, .y = 0, .z = 0}; //Accelerometer data
+rawdata_t magnetometerBuffer = {.x = 0, .y = 0, .z = 0}; /*!< Stores last polled Magnetometer data */
+rawdata_t accelerometerBuffer = {.x = 0, .y = 0, .z = 0}; /*!< Stores last polled Accelerometer data */
 
 /**
- * Polls the accelerometer and magnetometer simultaneously and stores their values in the global buffer
+ * @brief Polls the accelerometer and magnetometer simultaneously and stores their values in the global buffer
  */
 void pollFXOS(void)
 {
 	if(FXOS8700CQ_ReadStatusReg() & 0x80)
 	{
-		// FXOS8700CQ_PollAccelerometer(&accelerometerBuffer);	
 		FXOS8700CQ_GetData(&accelerometerBuffer,&magnetometerBuffer);
 	}
 	else
@@ -145,7 +157,8 @@ void pollFXOS(void)
 }
 
 /**
- * Gets the X component of the pointing direction
+ * @brief Gets the X component of the pointing direction
+ * @return int of the magnetic force in the X direction from the last poll
  */
 int getMagX(void)
 {
@@ -153,7 +166,8 @@ int getMagX(void)
 }
 
 /**
- * Gets the Y component of the pointing direction
+ * @brief Gets the Y component of the pointing direction
+ * @return int of the magnetic force in the Y direction from the last poll
  */
 int getMagY(void)
 {
@@ -161,7 +175,8 @@ int getMagY(void)
 }
 
 /**
- * Gets the Z component of the pointing direction
+ * @brief Gets the Z component of the pointing direction
+ * @return int of the magnetic force in the Z direction from the last poll
  */
 int getMagZ(void)
 {
@@ -169,7 +184,8 @@ int getMagZ(void)
 }
 
 /**
- * Gets the X component of the acceleration
+ * @brief Gets the X component of the acceleration
+ * @return int of the force of acceleration in the X direction from the last poll
  */
 int getAccelX(void)
 {
@@ -177,7 +193,8 @@ int getAccelX(void)
 }
 
 /**
- * Gets the Y component of the acceleration
+ * @brief Gets the Y component of the acceleration
+ * @return int of the force of acceleration in the Y direction from the last poll
  */
 int getAccelY(void)
 {
@@ -185,21 +202,25 @@ int getAccelY(void)
 }
 
 /**
- * Gets the Z component of the acceleration
+ * @brief Gets the Z component of the acceleration
+ * @return int of the force of acceleration in the Z direction from the last poll
  */
 int getAccelZ(void)
 {
 	return (int) accelerometerBuffer.z;
 }
 
-//polls data from the real time clock
+/**
+ * @brief Polls data from the real time clock
+ */
 void poll_rtcc(void)
 {
 	current_time = MCP79410_GetTime();
 }
 
 /**
- * Gets the year from the last time the RTCC was polled
+ * @brief Gets the year from the last time the RTCC was polled
+ * @return int of the current year from the last poll
  */
 int get_rtcc_year(void)
 {
@@ -207,7 +228,8 @@ int get_rtcc_year(void)
 }
 
 /**
- * Gets the month from the last time the RTCC was polled
+ * @brief Gets the month from the last time the RTCC was polled
+ * @return int of the current month from the last poll
  */
 int get_rtcc_month(void)
 {
@@ -215,7 +237,8 @@ int get_rtcc_month(void)
 }
 
 /**
- * Gets the date from the last time the RTCC was polled
+ * @brief Gets the date from the last time the RTCC was polled
+ * @return int of the current day from the last poll
  */
 int get_rtcc_date(void)
 {
@@ -223,7 +246,8 @@ int get_rtcc_date(void)
 }
 
 /**
- * Gets the hour from the last time the RTCC was polled
+ * @brief Gets the hour from the last time the RTCC was polled
+ * @return int of the current hour from the last poll
  */
 int get_rtcc_hour(void)
 {
@@ -231,7 +255,8 @@ int get_rtcc_hour(void)
 }
 
 /**
- * Gets the minute from the last time the RTCC was polled
+ * @brief Gets the minute from the last time the RTCC was polled
+ * @return int of the current minute from the last poll
  */
 int get_rtcc_minute(void)
 {
@@ -239,7 +264,8 @@ int get_rtcc_minute(void)
 }
 
 /**
- * Gets the second from the last time the RTCC was polled
+ * @brief Gets the second from the last time the RTCC was polled
+ * @return int of the current second from the last poll
  */
 int get_rtcc_second(void)
 {
@@ -247,7 +273,7 @@ int get_rtcc_second(void)
 }
 
 /**
- * Set the date/time on the RTCC.
+ * @brief Set the date/time on the RTCC.
  */
 void set_rtcc_datetime(int year, int month, int date, int w_day, int hour, int minute, int second)
 {
@@ -273,7 +299,7 @@ void set_rtcc_datetime(int year, int month, int date, int w_day, int hour, int m
 }
 
 /**
- * Set an alarm on the RTCC. As of now, only 1 is supported.
+ * @brief Set an alarm on the RTCC. As of now, only 1 is supported.
  */
 void set_rtcc_alarm(int year, int month, int date, int w_day, int hour, int minute, int second, int match_mode)
 {
@@ -318,7 +344,8 @@ void set_rtcc_alarm(int year, int month, int date, int w_day, int hour, int minu
 }
 
 /**
- * Returns whether or not the alarm is triggered.
+ * @brief Check whether or not the alarm is triggered.
+ * @return an int boolean, 0 if not triggered
  */
 int poll_rtcc_alarm(void)
 {
@@ -327,7 +354,7 @@ int poll_rtcc_alarm(void)
 }
 
 /**
- * Turn off the alarm if it is triggered.
+ * @brief Turn off the alarm if it is triggered.
  */
 void reset_alarm(void)
 {
@@ -341,7 +368,7 @@ void reset_alarm(void)
 }
 
 /**
- * Turn on the orange LED on the Sensorian
+ * @brief Turn on the orange LED on the Sensorian
  */
 void orange_led_on(void)
 {
@@ -349,7 +376,7 @@ void orange_led_on(void)
 }
 
 /**
- * Turn off the orange LED on the Sensorian
+ * @brief Turn off the orange LED on the Sensorian
  */
 void orange_led_off(void)
 {

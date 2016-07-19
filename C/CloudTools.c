@@ -15,8 +15,8 @@
  * @brief Defines the struct in which the request response containing the public IP is stored
  */
 struct MemoryStruct {
-    char *memory;
-    size_t size;
+    char *memory; /*!< The contents of the response */
+    size_t size; /*!< The size of the response */
 };
 
 /**

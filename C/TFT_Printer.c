@@ -12,10 +12,10 @@
 #include "TFT.h"
 #include "TFT_Printer.h"
 
-orientation_t lastMode = LANDSCAPE_INV; //The last orientation given, defaults to Landscape Inverted
-int lastColor = WHITE; //The last text color given, defaults to White
-int lastBackground = BLACK; //The last background color given, defaults to Black
-int lastSize = 1; //The last font size given, defaults to 1
+orientation_t lastMode = LANDSCAPE_INV; /*!< The last orientation given, defaults to Landscape Inverted */
+int lastColor = WHITE; /*!< The last text color given, defaults to White */
+int lastBackground = BLACK; /*!< The last background color given, defaults to Black */
+int lastSize = 1; /*!< The last font size given, defaults to 1 */
 
 /**
  * @brief Prepares the TFT LCD and its SPI bus for use, clearing the screen to black as well

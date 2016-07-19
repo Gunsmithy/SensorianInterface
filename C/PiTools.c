@@ -42,7 +42,6 @@ void pi_get_cpu_serial(char *buf)
 
 /**
  * @brief Get the Raspberry Pi's CPU temperature from the system file and return as a float
- * @param none
  * @return float of the CPU temperature
  */
 float pi_get_cpu_temperature()
