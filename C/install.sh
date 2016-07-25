@@ -17,5 +17,10 @@ sudo make install
 cd ..
 cd ..
 
+#Enable SPI and I2C interfaces
+sudo sed -i 's/#dtparam=i2c_arm=on/dtparam=i2c_arm=on/g' /boot/config.txt
+sudo sed -i 's/#dtparam=spi=on/dtparam=spi=on/g' /boot/config.txt
+sudo sh -c 'echo i2c-dev >> /etc/modules'
+
 #At this point, everything should be installed and working after reboot
 echo "Sensorian C Interface dependencies should now be setup. Please reboot!"
