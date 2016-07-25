@@ -13,14 +13,12 @@ To summarize for experts, simply clone/download the repo wherever and run the in
 
 1. Install the latest Raspbian image to your Pi following [this official guide](https://www.raspberrypi.org/documentation/installation/installing-images/)  
 2. Boot up the Pi, and connect to it however you like. A display cable is not necessary.  
-3. Run `sudo raspi-config` to your liking, remember that you can simply boot to console, no display required.  
-4. Be sure to enable the SPI and I2C interfaces in Advanced Options, and optionally SSH.   
-5. Download/clone the project to a directory by navigating to it and typing the following line  
+3. Download/clone the project to a directory by navigating to it and typing the following line  
   * `git clone https://github.com/sensorian/SensorianInterface.git`  
-6. Change into the new directory using `cd SensorianInterface` then `cd C` or `cd P*`  
-7. Type `chmod +x install.sh` and then run `./install.sh` and wait for it to finish  
-8. When it is finally done installing dependencies, reboot the Pi with `sudo reboot`  
-9. Finally, `sudo python test.py` or `sudo make && sudo ./Test` to run the included tests!  
+4. Change into the new directory using `cd SensorianInterface` then `cd C` or `cd P*`  
+5. Type `chmod +x install.sh` and then run `./install.sh` and wait for it to finish  
+6. When it is finally done installing dependencies, reboot the Pi with `sudo reboot`  
+7. Finally, `sudo python test.py` or `sudo make && sudo ./Test` to run the included tests!  
 
 In summary, the code bases are broken into 4 main libraries:  
 1. `SensorsInterface.c/py` - These are the main helper APIs for easily getting all sensor values  
