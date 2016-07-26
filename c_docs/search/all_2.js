@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['get_5frtcc_5fdate',['get_rtcc_date',['../_sensors_interface_8c.html#afa77a8c02fc17430513e57ad080aa4e8',1,'SensorsInterface.c']]],
+  ['get_5frtcc_5fhour',['get_rtcc_hour',['../_sensors_interface_8c.html#a15656bd3c6abeae86a486654648ba373',1,'SensorsInterface.c']]],
+  ['get_5frtcc_5fminute',['get_rtcc_minute',['../_sensors_interface_8c.html#aa25d40787bc2ce77a02125caf594a41c',1,'SensorsInterface.c']]],
+  ['get_5frtcc_5fmonth',['get_rtcc_month',['../_sensors_interface_8c.html#a8299a420479cd2b91012f4e62ef629c3',1,'SensorsInterface.c']]],
+  ['get_5frtcc_5fsecond',['get_rtcc_second',['../_sensors_interface_8c.html#a69775b16c812eaf978797c704b80e2e9',1,'SensorsInterface.c']]],
+  ['get_5frtcc_5fyear',['get_rtcc_year',['../_sensors_interface_8c.html#ab14b6cd51d3e13eec8b228985476a0fa',1,'SensorsInterface.c']]],
+  ['getaccelx',['getAccelX',['../_sensors_interface_8c.html#ab05dbc045b52d9ae927921b3c55e4772',1,'SensorsInterface.c']]],
+  ['getaccely',['getAccelY',['../_sensors_interface_8c.html#a816d07af2ef1696949c0dc93b0ce16d2',1,'SensorsInterface.c']]],
+  ['getaccelz',['getAccelZ',['../_sensors_interface_8c.html#aa27441029386c55a22a5229cb1499c08',1,'SensorsInterface.c']]],
+  ['getaltitude',['getAltitude',['../_sensors_interface_8c.html#a5fc33cf5d16198ca1d134cd9701c7ccd',1,'SensorsInterface.c']]],
+  ['getambientlight',['getAmbientLight',['../_sensors_interface_8c.html#a7f0b0d0dc200c666bee07825f82963b6',1,'SensorsInterface.c']]],
+  ['getbarometricpressure',['getBarometricPressure',['../_sensors_interface_8c.html#ac2d189c6e1e0a1599dbbeb022ae66356',1,'SensorsInterface.c']]],
+  ['getmagx',['getMagX',['../_sensors_interface_8c.html#ab48fae332f6da9f18e32f100c150bb74',1,'SensorsInterface.c']]],
+  ['getmagy',['getMagY',['../_sensors_interface_8c.html#acbcb955a12ca025290f57b8b79c0234b',1,'SensorsInterface.c']]],
+  ['getmagz',['getMagZ',['../_sensors_interface_8c.html#a037ce8d0d62d9bc396a325b8f7d7b15d',1,'SensorsInterface.c']]],
+  ['gettemperature',['getTemperature',['../_sensors_interface_8c.html#ab1ce6f9cca1abb8bacef3c64729fecf3',1,'SensorsInterface.c']]]
+];

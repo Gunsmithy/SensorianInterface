@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['getalarmstatus',['GetAlarmStatus',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#a9f2fc140e62fc6703f0996761f2b905f',1,'MCP79410RTCC::MCP79410']]],
+  ['getalarmtime',['GetAlarmTime',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#aa24ccc12401201737e413dcb76912ca7',1,'MCP79410RTCC::MCP79410']]],
+  ['getaltitude',['GetAltitude',['../class_m_p_l3115_a2_1_1_m_p_l3115_a2.html#aac9ec8f24773ded2ad72ed5aa076383b',1,'MPL3115A2::MPL3115A2']]],
+  ['getchipmode',['getChipMode',['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#a211ae8481b1afa08579fa5ac87d7399f',1,'FXOS8700CQR1::FXOS8700CQR1']]],
+  ['getheading',['getHeading',['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#a15e3733af37692d257dc0542c4d65d2a',1,'FXOS8700CQR1::FXOS8700CQR1']]],
+  ['getid',['GetID',['../class_m_p_l3115_a2_1_1_m_p_l3115_a2.html#aa8c9e04a8d3446e043218f572bb679d8',1,'MPL3115A2.MPL3115A2.GetID()'],['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#a1eeabf19f23f765d1d7445c0fc93653d',1,'FXOS8700CQR1.FXOS8700CQR1.getID()']]],
+  ['getluxlevel',['getLuxLevel',['../class_a_p_d_s9300_1_1_a_p_d_s9300.html#af786eab48beb4f71d89eab178e3f4518',1,'APDS9300::APDS9300']]],
+  ['getmode',['GetMode',['../class_m_p_l3115_a2_1_1_m_p_l3115_a2.html#aabfc0ffb136ce4e61799df2689117f44',1,'MPL3115A2::MPL3115A2']]],
+  ['getodr',['getODR',['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#abfa19a305c45f7799149c2df864fcb00',1,'FXOS8700CQR1::FXOS8700CQR1']]],
+  ['getorientation',['getOrientation',['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#a67b99b9848c86f45361314eabe3f45b5',1,'FXOS8700CQR1::FXOS8700CQR1']]],
+  ['getpmam',['GetPMAM',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#abc0b7e41fb3be2951ef6c8d10e7432a5',1,'MCP79410RTCC::MCP79410']]],
+  ['getpowerdowntime',['GetPowerDownTime',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#a22a42865d9ee83ae4a0165692e384324',1,'MCP79410RTCC::MCP79410']]],
+  ['getpoweruptime',['GetPowerUpTime',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#aaceb692091bfdca340ab7b4701e42517',1,'MCP79410RTCC::MCP79410']]],
+  ['getstatusreg',['getStatusReg',['../class_c_a_p1203_1_1_c_a_p1203.html#aedad07a1e8726f1a41e75b373e2231c5',1,'CAP1203::CAP1203']]],
+  ['gettemperature',['getTemperature',['../class_f_x_o_s8700_c_q_r1_1_1_f_x_o_s8700_c_q_r1.html#a3cb716b864b332bd5c3a252f735d57f4',1,'FXOS8700CQR1::FXOS8700CQR1']]],
+  ['gettime',['GetTime',['../class_m_c_p79410_r_t_c_c_1_1_m_c_p79410.html#a4653f21477cb357eaadf3d9310951f9a',1,'MCP79410RTCC::MCP79410']]]
+];
