@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""PiTools.py: Adds basic Raspberry Pi functionality such as serial reading and """
+"""PiTools.py: Extra tools related to the Raspberry Pi for Sensorian projects like Shutdown, Reboot, CPU info, etc. """
 
 import socket
 import fcntl
